@@ -1,0 +1,1 @@
+const NB_IMGS = 50;

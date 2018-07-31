@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lave-linge ou sèche-linge?</title>
+</head>
+<body>
+
+    <img src="" id="image"><br>
+    <button onclick="laveLinge()">Lave-linge</button>
+    <button onclick="secheLinge()">Sèche-linge</button>
+    
+    <script src="nb_imgs.js"></script>
+    <script>
+        function rndNb(min, max) {
+            return Math.floor(Math.random() * max) + 1;
+        }
+        
+        function selectImg(imgEl, nbImgs){
+            let cat;
+            if(Math.random() < .5){
+                cat = "lave-linge";
+            }else{
+                cat = "sèche-linge";
+            }
+
+            let imgNb = rndNb(1, nbImgs);
+            imgEl.src = `downloads/${cat}/${imgNb}.jpg`;
+        }
+
+        const imgEl = document.getElementById("image");
+        selectImg(imgEl, NB_IMGS);
+    </script>
+</body>
+</html>
