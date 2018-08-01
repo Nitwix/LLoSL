@@ -5,33 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Lave-linge ou sèche-linge?</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+    body{
+        background-color: darkslategray;
+        color: azure;
+        font-family: "Arial Black", Gadget, sans-serif;
+        text-align: center;
+    }
+    
+    img{
+        max-height: 400px;
+    }
+
+    button{
+        font-size: 40px;
+        border-radius: 5px;
+        background-color:darkgrey;
+        color:azure;
+    }
+
+    #score{
+        color:aquamarine;
+    }
+
+    #title{
+        font-size: 50px;
+        margin-bottom: 50px;
+    }
+    </style>
 </head>
 <body>
 
-    <img src="" id="image"><br>
-    <button onclick="laveLinge()">Lave-linge</button>
-    <button onclick="secheLinge()">Sèche-linge</button>
+    <div id="game">
+        <div id="title">LAVE-LINGE OU SECHE-LINGE?</div>
+        <img src="" id="image">
+        <br><br>
+        <button onclick="laveLinge()">Lave-linge</button>
+        <button onclick="secheLinge()">Sèche-linge</button>
+        <h1 id="verif"></h1>
+        <h3 id="score"></h3>
+    </div>
+    
     
     <script src="nb_imgs.js"></script>
     <script>
+        let imgCat = "";
+        let score = 0;
+
+        const imgEl = document.getElementById("image");
+        const verifEl = document.getElementById("verif");
+        const scoreEl = document.getElementById("score");
+        selectImg(imgEl, NB_IMGS);
+
         function rndNb(min, max) {
             return Math.floor(Math.random() * max) + 1;
         }
         
         function selectImg(imgEl, nbImgs){
-            let cat;
             if(Math.random() < .5){
-                cat = "lave-linge";
+                imgCat = "lave-linge";
             }else{
-                cat = "sèche-linge";
+                imgCat = "sèche-linge";
             }
+            //console.log("imgCat : ", imgCat);
 
             let imgNb = rndNb(1, nbImgs);
-            imgEl.src = `downloads/${cat}/${imgNb}.jpg`;
+            //console.log("imgNb : ", imgNb);
+
+            imgEl.src = `downloads/${imgCat}/${imgNb}.jpg`;
+            
+            
+            setTimeout(() => {
+                if(imgEl.width === 16 && imgEl.height === 16){
+                    //image is invalid -> select new image
+                    selectImg(imgEl, nbImgs);
+                }
+            }, 70);
         }
 
-        const imgEl = document.getElementById("image");
-        selectImg(imgEl, NB_IMGS);
+        function correct(){
+            score++;
+            verifEl.innerHTML = "Correct :)";
+            scoreEl.innerHTML = "SCORE : "+score;
+        }
+        function incorrect(){
+            score--;
+            verifEl.innerHTML = "Faux :(";
+            scoreEl.innerHTML = "SCORE : " + score;
+        }
+
+        function verifyAnswer(cat){
+            if (imgCat === cat) {
+                correct();
+            } else {
+                incorrect();
+            }
+            selectImg(imgEl, NB_IMGS);
+        }
+
+        function laveLinge(){
+            verifyAnswer("lave-linge");
+        }
+
+        function secheLinge(){
+            verifyAnswer("sèche-linge");
+        }
+
     </script>
 </body>
 </html>

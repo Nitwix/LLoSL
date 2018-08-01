@@ -1,27 +1,14 @@
 #!/bin/bash
 
-if [ "$1" == "" ]; then
-    echo "Nb d'images à télécharger non fourni"
-    exit 1
-fi
+nb_imgs=$(node nb_imgs.js)
 
-nb_imgs=$1
-
-googleimagesdownload --keywords 'lave-linge' --limit $nb_imgs --format jpg
-echo "=== $nb_imgs images de lave-linge téléchargées ==="
-
-googleimagesdownload --keywords 'sèche-linge' --limit $nb_imgs --format jpg
-echo "=== $nb_imgs images de sèche-linge téléchargées ==="
-
-
-# cleanup image file names
-
-clean_file_names(){
-    rename 's/\..*\./\./' *
+download_imgs() {
+    googleimagesdownload --aspect_ratio tall --keywords $1 --limit $2 --format jpg --size medium
+    echo "=== $2 images de $1 téléchargées ==="
 }
 
-cd downloads/lave-linge/
-clean_file_names
-cd ../sèche-linge/
-clean_file_names
+download_imgs lave-linge $nb_imgs
 
+download_imgs sèche-linge $nb_imgs
+
+./clean-img-names.sh

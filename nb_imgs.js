@@ -1,1 +1,2 @@
-const NB_IMGS = 50;
+const NB_IMGS = 25;
+console.log(NB_IMGS);
